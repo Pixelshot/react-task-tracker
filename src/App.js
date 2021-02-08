@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
+import AddTask from "./components/AddTask";
 
 function App() {
   const [tasks, setTasks] = useState([
@@ -25,6 +26,14 @@ function App() {
     },
   ]);
 
+  // Add Task
+  const addTask = (task) => {
+    const id = Math.floor(Math.random() * 1000) + 1;
+
+    const newTask = { id, ...task };
+    setTasks([...tasks, newTask]);
+  };
+
   // Since props are not mutable and state is in this file, we can't just create a component to delete our tasks. Instead, we'll create a function that dynamically changes the state everytime the function gets called. This function will be passed down as a prop to the component.
   const deleteTask = (id) => {
     // use .filter() to remove the selected id from tasks
@@ -45,6 +54,7 @@ function App() {
     /*Use <> </> if you don't want to have the elements wrapped in a div*/
     <div className="container">
       <Header />
+      <AddTask onAdd={addTask} />
       {tasks.length > 0 ? (
         <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
       ) : (
